@@ -74,10 +74,22 @@ app.post('/select-channel/:id', async function(req, res, next){
 
 app.post('/new-channel', function(req, res, next){
     var new_channel = req.body
-    new_channel.id = channel_list.length
 
-    channel_list.push(new_channel)
-    res.send('new channel')
+    db.run('INSERT INTO channels VALUES ($1, $2, $3, $4, $5)', [
+        new_channel.id,
+        new_channel.name,
+        new_channel.link ? new_channel.link : null,
+        new_channel.file ? new_channel.file : null,
+        new_channel.type
+    ], function(err, resp){
+        console.log('insert', err, resp)
+        res.send(resp)
+    })
+
+    // new_channel.id = channel_list.length
+    //
+    // channel_list.push(new_channel)
+    // res.send('new channel')
 })
 
 app.get('/channels', function(req, res, next){
