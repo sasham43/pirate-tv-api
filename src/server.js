@@ -22,6 +22,7 @@ var channel_list = [{
     name: 'Cyberpunk Synthwave',
     file: '/home/pi/tv/synth1.mp4'
 }]
+var current_channel = null
 
 app.use('/quit', function(req, res, next){
     player.quit()
@@ -48,7 +49,7 @@ app.use('/play/:video', function(req, res, next){
 })
 
 app.get('/current-channel', function(req, res, next){
-    return res.send(req.current_channel)
+    return res.send(current_channel)
 })
 
 app.post('/select-channel/:id', async function(req, res, next){
@@ -56,7 +57,7 @@ app.post('/select-channel/:id', async function(req, res, next){
 
     try {
         var running = await playChannel(channel)
-        req.current_channel = channel.id
+        current_channel = channel.id
     } catch(e){
         res.status(500).send(e)
     }
