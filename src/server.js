@@ -50,7 +50,11 @@ app.use('/play/:video', function(req, res, next){
 app.post('/select-channel/:id', async function(req, res, next){
     var channel = channel_list.find(c=>c.id == req.params.id)
 
-    var running = await playChannel(channel)
+    try {
+        var running = await playChannel(channel)
+    } catch(e){
+        res.status(500).send(e)
+    }
 
     res.send(`Playing ${req.params.id}; Running: ${running}`)
 })
@@ -95,10 +99,12 @@ function playChannel(channel){
                 // res.send(player.running)
                 resolve(player.running)
             })
-        } else if (channel.path) {
-            player.newSource(channel.path)
+        } else if (channel.file) {
+            player.newSource(channel.file, null, true)
             console.log('player info:', player.info())
             resolve(player.running)
+        } else {
+            reject('No file or link in channel')
         }
     })
 }
