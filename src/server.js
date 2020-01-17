@@ -17,8 +17,8 @@ var listenPort = process.env.PORT || 3005;
 
 var player = Omx();
 
-app.use('/play:video', function(req, res, next){
-    var video = req.params.video
+app.use('/play/:video', function(req, res, next){
+    var video = `https://www.youtube.com/watch?v=${req.params.video}`
     youtubedl.exec(video, ['-g'], {}, function(err, info){
         console.log('got it', err, info)
         player.newSource(info[0])
