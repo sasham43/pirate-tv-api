@@ -22,8 +22,13 @@ app.use('/quit', function(req, res, next){
     res.send('quit')
 })
 
-app.use('/stop', function(req, res, next){
-    player.stop()
+app.use('/pause', function(req, res, next){
+    player.pause()
+    res.send(player.running)
+})
+
+app.use('/resume', function(req, res, next){
+    player.play()
     res.send(player.running)
 })
 
