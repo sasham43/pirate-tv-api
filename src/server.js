@@ -47,11 +47,16 @@ app.use('/play/:video', function(req, res, next){
     })
 })
 
+app.get('/current-channel', function(req, res, next){
+    return res.send(req.current_channel)
+})
+
 app.post('/select-channel/:id', async function(req, res, next){
     var channel = channel_list.find(c=>c.id == req.params.id)
 
     try {
         var running = await playChannel(channel)
+        req.current_channel = channel.id
     } catch(e){
         res.status(500).send(e)
     }
