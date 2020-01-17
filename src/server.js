@@ -17,7 +17,7 @@ var listenPort = process.env.PORT || 3005;
 var player = Omx();
 
 app.use('/play', function(req, res, next){
-    player.play('/home/pi/mitch.mp4')
+    player.newSource('/home/pi/mitch.mp4')
     res.send('playing')
 })
 
