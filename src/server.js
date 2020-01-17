@@ -79,8 +79,9 @@ app.post('/new-channel', function(req, res, next){
 
 app.get('/channels', function(req, res, next){
     // res.send(channel_list)
-    db.all('select * from channels', function(err, rows){
+    db.all('select * from channels;', function(err, rows){
         if(err){
+            console.log('error', err)
             res.status(500).send(err)
         } else {
             console.log('rows', rows)
