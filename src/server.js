@@ -25,6 +25,11 @@ app.use('/play', function(req, res, next){
         res.send(info)
     })
 
+    video.on('error', function(err){
+        console.log('error', err)
+        res.send(err)
+    })
+
     // player.newSource('$(youtube-dl -g https://www.youtube.com/watch?v=TvZskcqdYcE)')
     // res.send('playing')
 })
