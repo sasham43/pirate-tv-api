@@ -15,7 +15,7 @@ app.use(bodyParser.json({
 
 var listenPort = process.env.PORT || 3005;
 
-// var player = Omx();
+var player = Omx();
 
 app.use('/play', function(req, res, next){
     youtubedl.exec('https://www.youtube.com/watch?v=TvZskcqdYcE', ['-g'], {}, function(err, info){
