@@ -18,17 +18,21 @@ var listenPort = process.env.PORT || 3005;
 // var player = Omx();
 
 app.use('/play', function(req, res, next){
-    const video = youtubedl('https://www.youtube.com/watch?v=TvZskcqdYcE', ['-g'])
-
-    video.on('end', function(info){
-        console.log('video completed', info)
-        res.send(info)
+    youtubedl.exec('https://www.youtube.com/watch?v=TvZskcqdYcE', ['-g'], {}, function(err, info){
+        console.log('got it', err, info)
+        res.send('got it')
     })
-
-    video.on('error', function(err){
-        console.log('error', err)
-        res.send(err)
-    })
+    // const video = youtubedl('https://www.youtube.com/watch?v=TvZskcqdYcE', ['-g'])
+    //
+    // video.on('end', function(info){
+    //     console.log('video completed', info)
+    //     res.send(info)
+    // })
+    //
+    // video.on('error', function(err){
+    //     console.log('error', err)
+    //     res.send(err)
+    // })
 
     // player.newSource('$(youtube-dl -g https://www.youtube.com/watch?v=TvZskcqdYcE)')
     // res.send('playing')
