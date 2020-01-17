@@ -47,6 +47,22 @@ app.use('/play/:video', function(req, res, next){
     })
 })
 
+app.post('/select-channel/:id', function(req, res, next){
+    var channel = channel_list.find(c=>c.id == req.params.id)
+
+    playChannel(channel)
+
+    res.send(`Playing ${req.params.id}`)
+})
+
+app.post('/new-channel', function(req, res, next){
+    var new_channel = req.body
+    new_channel.id = channel_list.length
+
+    channel_list.push(new_channel)
+    res.send('new channel')
+})
+
 app.get('/channels', function(req, res, next){
     res.send(channel_list)
 })
@@ -67,3 +83,17 @@ app.get('*', function (req, res) {
 app.listen(listenPort, function(){
   console.log('server listening on port', listenPort + '...');
 });
+
+
+function playChannel(channel){
+    if(channel.link){
+        var video = `https://www.youtube.com/watch?v=${channel.link}`
+        youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
+            console.log('got it', err, info)
+            player.newSource(info[0], null, true) // start new source with loop
+            res.send(player.running)
+        })
+    } else if (channel.path) {
+        player.newSource(channel.path)
+    }
+}
