@@ -59,7 +59,7 @@ app.get('/current-channel', function(req, res, next){
 })
 
 app.post('/select-channel/:id', async function(req, res, next){
-    getAllChannels(db).then(rows=>{
+    getAllChannels(db).then(async rows=>{
         var channel = rows.find(c=>c.id == req.params.id)
         try {
             var running = await playChannel(channel)
