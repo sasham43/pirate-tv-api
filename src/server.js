@@ -17,6 +17,11 @@ var listenPort = process.env.PORT || 3005;
 
 var player = Omx();
 
+app.use('/quit', function(req, res, next){
+    player.quit()
+    res.send('quit')
+})
+
 app.use('/stop', function(req, res, next){
     player.stop()
     res.send(player.running)
@@ -27,7 +32,7 @@ app.use('/play/:video', function(req, res, next){
     youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
         console.log('got it', err, info)
         player.newSource(info[0])
-        res.send('got it')
+        res.send(player.running)
     })
 })
 
