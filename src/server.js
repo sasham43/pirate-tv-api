@@ -17,6 +17,12 @@ var listenPort = process.env.PORT || 3005;
 
 var player = Omx();
 
+var channel_list = [{
+    id: 0,
+    name: 'Cyberpunk Synthwave',
+    file: '/home/pi/tv/synth1.mp4'
+}]
+
 app.use('/quit', function(req, res, next){
     player.quit()
     res.send('quit')
@@ -39,6 +45,10 @@ app.use('/play/:video', function(req, res, next){
         player.newSource(info[0], null, true) // start new source with loop
         res.send(player.running)
     })
+})
+
+app.get('/channels', function(req, res, next){
+    res.send(channel_list)
 })
 
 app.use('/', function(req, res, next){
