@@ -47,12 +47,12 @@ app.use('/play/:video', function(req, res, next){
     })
 })
 
-app.post('/select-channel/:id', function(req, res, next){
+app.post('/select-channel/:id', async function(req, res, next){
     var channel = channel_list.find(c=>c.id == req.params.id)
 
-    playChannel(channel)
+    var running = await playChannel(channel)
 
-    res.send(`Playing ${req.params.id}`)
+    res.send(`Playing ${req.params.id}; Running: ${running}`)
 })
 
 app.post('/new-channel', function(req, res, next){
