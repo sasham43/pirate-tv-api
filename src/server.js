@@ -2,6 +2,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var Omx = require('node-omxplayer');
 const youtubedl = require('youtube-dl')
+var sqlite3 = require('sqlite3')
+var db = new sqlite3.Database('pirate_tv');
 
 var app = express();
 
@@ -76,7 +78,15 @@ app.post('/new-channel', function(req, res, next){
 })
 
 app.get('/channels', function(req, res, next){
-    res.send(channel_list)
+    // res.send(channel_list)
+    db.all('select * from channels', function(err, rows){
+        if(err){
+            res.status(500).send(err)
+        } else {
+            console.log('rows', rows)
+            res.send(rows)
+        }
+    })
 })
 
 app.use('/', function(req, res, next){
