@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var Omx = require('node-omxplayer');
+const youtubedl = require('youtube-dl')
 
 var app = express();
 
@@ -14,11 +15,18 @@ app.use(bodyParser.json({
 
 var listenPort = process.env.PORT || 3005;
 
-var player = Omx();
+// var player = Omx();
 
 app.use('/play', function(req, res, next){
-    player.newSource('$(youtube-dl -g https://www.youtube.com/watch?v=TvZskcqdYcE)')
-    res.send('playing')
+    const video = youtubedl('https://www.youtube.com/watch?v=TvZskcqdYcE', ['-g'])
+
+    video.on('complete', function(info){
+        console.log('video completed', info)
+        res.send(info)
+    })
+
+    // player.newSource('$(youtube-dl -g https://www.youtube.com/watch?v=TvZskcqdYcE)')
+    // res.send('playing')
 })
 
 app.use('/', function(req, res, next){
