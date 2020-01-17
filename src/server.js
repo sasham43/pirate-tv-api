@@ -1,7 +1,6 @@
-// require("dotenv").config();
 var express = require('express');
 var bodyParser = require('body-parser');
-// var config = require('./config').get();
+var Omx = require('node-omxplayer');
 
 var app = express();
 
@@ -15,9 +14,12 @@ app.use(bodyParser.json({
 
 var listenPort = process.env.PORT || 3005;
 
-// app.use('/videos', videos);
-// app.use('/assistant', assistant);
-// app.use('/', root);
+var player = Omx();
+
+app.use('/play', function(req, res, next){
+    player.play('/home/pi/mitch.mp4')
+    res.send('playing')
+})
 
 app.use('/', function(req, res, next){
     res.send('10-4 good buddy')
