@@ -115,6 +115,7 @@ function playChannel(channel){
         if(channel.link){
             var video = `https://www.youtube.com/watch?v=${channel.link}`
             youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
+                if(err) console.log('youtube-dl err', err)
                 player.newSource(info[0], null, true) // start new source with loop
                 console.log('player info:', player.info())
                 // res.send(player.running)
