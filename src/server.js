@@ -20,7 +20,7 @@ var listenPort = process.env.PORT || 3005;
 app.use('/play', function(req, res, next){
     const video = youtubedl('https://www.youtube.com/watch?v=TvZskcqdYcE', ['-g'])
 
-    video.on('complete', function(info){
+    video.on('end', function(info){
         console.log('video completed', info)
         res.send(info)
     })
