@@ -86,14 +86,19 @@ app.listen(listenPort, function(){
 
 
 function playChannel(channel){
-    if(channel.link){
-        var video = `https://www.youtube.com/watch?v=${channel.link}`
-        youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
-            console.log('got it', err, info)
-            player.newSource(info[0], null, true) // start new source with loop
-            res.send(player.running)
-        })
-    } else if (channel.path) {
-        player.newSource(channel.path)
-    }
+    return new Promise((resolve, reject)=>{
+        if(channel.link){
+            var video = `https://www.youtube.com/watch?v=${channel.link}`
+            youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
+                player.newSource(info[0], null, true) // start new source with loop
+                console.log('player info:', player.info())
+                // res.send(player.running)
+                resolve(player.running)
+            })
+        } else if (channel.path) {
+            player.newSource(channel.path)
+            console.log('player info:', player.info())
+            resolve(player.running)
+        }
+    })
 }
