@@ -49,7 +49,9 @@ app.use('/play/:video', function(req, res, next){
 })
 
 app.get('/current-channel', function(req, res, next){
-    return res.send(current_channel)
+    return res.send({
+        current_channel
+    })
 })
 
 app.post('/select-channel/:id', async function(req, res, next){
