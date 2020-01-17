@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var Omx = require('node-omxplayer');
 const youtubedl = require('youtube-dl')
 var sqlite3 = require('sqlite3').verbose()
-var db = new sqlite3.Database('pirate_tv', sqlite3.OPEN_READWRITE, function(err, resp){
+var db = new sqlite3.Database('/home/pi/pirate_tv', sqlite3.OPEN_READWRITE, function(err, resp){
     console.log('db opened', err, resp)
 });
 
