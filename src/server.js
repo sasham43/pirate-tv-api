@@ -59,16 +59,17 @@ app.get('/current-channel', function(req, res, next){
 })
 
 app.post('/select-channel/:id', async function(req, res, next){
-    var channel = channel_list.find(c=>c.id == req.params.id)
+    getAllChannels(db).then(rows=>{
+        var channel = rows.find(c=>c.id == req.params.id)
+        try {
+            var running = await playChannel(channel)
+            current_channel = channel.id
+        } catch(e){
+            res.status(500).send(e)
+        }
 
-    try {
-        var running = await playChannel(channel)
-        current_channel = channel.id
-    } catch(e){
-        res.status(500).send(e)
-    }
-
-    res.send(`Playing ${req.params.id}; Running: ${running}`)
+        res.send(`Playing ${req.params.id}; Running: ${running}`)
+    })
 })
 
 app.post('/new-channel', function(req, res, next){
@@ -81,14 +82,19 @@ app.post('/new-channel', function(req, res, next){
 
 app.get('/channels', function(req, res, next){
     // res.send(channel_list)
-    db.all('select * from channels;', function(err, rows){
-        if(err){
-            console.log('error', err)
-            res.status(500).send(err)
-        } else {
-            console.log('rows', rows)
-            res.send(rows)
-        }
+    // db.all('select * from channels;', function(err, rows){
+    //     if(err){
+    //         console.log('error', err)
+    //         res.status(500).send(err)
+    //     } else {
+    //         console.log('rows', rows)
+    //         res.send(rows)
+    //     }
+    // })
+    getAllChannels(db).then(rows=>{
+        res.send(rows)
+    }).catch(err=>{
+        res.status(500).send(err)
     })
 })
 
@@ -109,6 +115,21 @@ app.listen(listenPort, function(){
   console.log('server listening on port', listenPort + '...');
 });
 
+function getAllChannels(db){
+    return new Promise((resolve, reject)=>{
+        db.all('select * from channels;', function(err, rows){
+            if(err){
+                console.log('error', err)
+                // res.status(500).send(err)
+                reject(err)
+            } else {
+                console.log('rows', rows)
+                // res.send(rows)
+                resolve(rows)
+            }
+        })
+    })
+}
 
 function playChannel(channel){
     return new Promise((resolve, reject)=>{
