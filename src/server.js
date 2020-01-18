@@ -92,7 +92,7 @@ app.post('/new-channel', function(req, res, next){
 })
 
 app.get('/channel/:id', function(req, res, next){
-    getChannelById(req.params.id).then(channel=>{
+    getChannelById(db, req.params.id).then(channel=>{
         res.send(channel)
     }).catch(err=>{
         res.status(500).send(err)
