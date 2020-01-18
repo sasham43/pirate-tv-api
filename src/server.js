@@ -64,7 +64,7 @@ app.post('/select-channel/:id', async function(req, res, next){
         res.status(500).send(e)
     }
 
-    res.send(current_channel)
+    res.send({current_channel})
 })
 
 app.post('/new-channel', function(req, res, next){
