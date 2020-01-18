@@ -59,8 +59,8 @@ app.get('/current-channel', function(req, res, next){
 })
 
 app.post('/select-channel/:id', async function(req, res, next){
-    getAllChannels(db).then(async rows=>{
-        var channel = rows.find(c=>c.id == req.params.id)
+    getChannelById(db, req.params.id).then(async channel=>{
+        // var channel = rows.find(c=>c.id == req.params.id)
         try {
             var running = await playChannel(channel)
             current_channel = channel.id
@@ -139,6 +139,16 @@ function getAllChannels(db){
                 // res.send(rows)
                 resolve(rows)
             }
+        })
+    })
+}
+
+function getChannelById(db, id){
+    return new Promise((resolve, reject)=>{
+        db.get('SELECT * FROM channels WHERE id = $1;', [id], (err, row)=>{
+            if(err) reject(err)
+
+            resolve(row)
         })
     })
 }
