@@ -60,7 +60,6 @@ app.get('/current-channel', function(req, res, next){
 
 app.post('/select-channel/:id', async function(req, res, next){
     getChannelById(db, req.params.id).then(async channel=>{
-        // var channel = rows.find(c=>c.id == req.params.id)
         try {
             var running = await playChannel(channel)
             current_channel = channel.id
@@ -90,6 +89,14 @@ app.post('/new-channel', function(req, res, next){
     //
     // channel_list.push(new_channel)
     // res.send('new channel')
+})
+
+app.get('/channel/:id', function(req, res, next){
+    getChannelById(req.params.id).then(channel=>{
+        res.send(channel)
+    }).catch(err=>{
+        res.status(500).send(err)
+    })
 })
 
 app.get('/channels', function(req, res, next){
