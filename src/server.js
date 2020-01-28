@@ -44,7 +44,12 @@ app.use('/resume', function(req, res, next){
 })
 
 app.use('/play/:video', function(req, res, next){
-    var video = `https://www.youtube.com/watch?v=${req.params.video}`
+    var video = ''
+    if(req.params.video.includes('youtube.com')){
+        video = req.params.video
+    } else {
+        video = `https://www.youtube.com/watch?v=${req.params.video}`
+    }
     youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
         console.log('got it', err, info)
         player.newSource(info[0], null, true) // start new source with loop
