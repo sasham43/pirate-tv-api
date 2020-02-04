@@ -156,6 +156,7 @@ function getChannelById(db, id){
 
 function playChannel(channel){
     return new Promise((resolve, reject)=>{
+        console.log('playing channel', channel)
         if(channel.link){
             // var video = `https://www.youtube.com/watch?v=${channel.link}`
             console.log('video:', req.params.video, req.params.video.includes('youtube.com'))
