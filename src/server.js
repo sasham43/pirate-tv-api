@@ -74,6 +74,7 @@ app.post('/select-channel/:id', async function(req, res, next){
             current_channel = channel.id
             res.send({current_channel})
         } catch(e){
+            console.log('error playing', e)
             res.status(500).send(e)
         }
 
