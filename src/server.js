@@ -72,11 +72,11 @@ app.post('/select-channel/:id', async function(req, res, next){
         try {
             var running = await playChannel(channel)
             current_channel = channel.id
+            res.send({current_channel})
         } catch(e){
             res.status(500).send(e)
         }
 
-        res.send({current_channel})
     })
 })
 
