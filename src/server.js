@@ -164,7 +164,7 @@ function playChannel(channel){
             if(channel.link.includes('youtube.com')){
                 video = channel.link
             } else {
-                video = `https://www.youtube.com/watch?v=${req.params.video}`
+                video = `https://www.youtube.com/watch?v=${channel.link}`
             }
             youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
                 if(err) console.log('youtube-dl err', err)
