@@ -160,7 +160,7 @@ function playChannel(channel){
         console.log('playing channel', channel)
         if(channel.link){
             // var video = `https://www.youtube.com/watch?v=${channel.link}`
-            console.log('video:', req.params.video, req.params.video.includes('youtube.com'))
+            console.log('video:', channel.link, channel.link.includes('youtube.com'))
             if(channel.link.includes('youtube.com')){
                 video = req.params.video
             } else {
