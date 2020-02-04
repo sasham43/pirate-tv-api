@@ -162,7 +162,7 @@ function playChannel(channel){
             // var video = `https://www.youtube.com/watch?v=${channel.link}`
             console.log('video:', channel.link, channel.link.includes('youtube.com'))
             if(channel.link.includes('youtube.com')){
-                video = req.params.video
+                video = channel.link
             } else {
                 video = `https://www.youtube.com/watch?v=${req.params.video}`
             }
