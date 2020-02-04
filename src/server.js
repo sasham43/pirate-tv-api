@@ -28,6 +28,9 @@ var channel_list = [{
 }]
 var current_channel = null
 
+// start by playing channel
+playChannel(channel_list[0])
+
 app.use('/quit', function(req, res, next){
     player.quit()
     res.send('quit')
@@ -89,11 +92,6 @@ app.post('/new-channel', function(req, res, next){
         console.log('insert', err, resp)
         res.send(resp)
     })
-
-    // new_channel.id = channel_list.length
-    //
-    // channel_list.push(new_channel)
-    // res.send('new channel')
 })
 
 app.get('/channel/:id', function(req, res, next){
@@ -105,16 +103,6 @@ app.get('/channel/:id', function(req, res, next){
 })
 
 app.get('/channels', function(req, res, next){
-    // res.send(channel_list)
-    // db.all('select * from channels;', function(err, rows){
-    //     if(err){
-    //         console.log('error', err)
-    //         res.status(500).send(err)
-    //     } else {
-    //         console.log('rows', rows)
-    //         res.send(rows)
-    //     }
-    // })
     getAllChannels(db).then(rows=>{
         res.send(rows)
     }).catch(err=>{
