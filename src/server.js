@@ -48,6 +48,7 @@ app.use('/resume', function(req, res, next){
 
 app.use('/play/:video', function(req, res, next){
     var video = ''
+    console.log('video:', req.params.video, req.params.video.includes('youtube.com'))
     if(req.params.video.includes('youtube.com')){
         video = req.params.video
     } else {
