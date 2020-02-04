@@ -157,7 +157,13 @@ function getChannelById(db, id){
 function playChannel(channel){
     return new Promise((resolve, reject)=>{
         if(channel.link){
-            var video = `https://www.youtube.com/watch?v=${channel.link}`
+            // var video = `https://www.youtube.com/watch?v=${channel.link}`
+            console.log('video:', req.params.video, req.params.video.includes('youtube.com'))
+            if(channel.link.includes('youtube.com')){
+                video = req.params.video
+            } else {
+                video = `https://www.youtube.com/watch?v=${req.params.video}`
+            }
             youtubedl.exec(video, ['-g', '-f best'], {}, function(err, info){
                 if(err) console.log('youtube-dl err', err)
                 player.newSource(info[0], null, true) // start new source with loop
